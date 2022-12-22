@@ -54,7 +54,7 @@
       );
       basemap.addTo(map);
 
-      // Creates a red marker with the coffee icon
+      // Creates a marker with the coffee icon
       var redMarker = L.AwesomeMarkers.icon({
         icon: "graduation-cap",
         markerColor: "blue",
@@ -91,6 +91,56 @@
         point.addData(data);
         map.addLayer(point);
       });
+
+      /* GeoJSON Polygon */
+      var polygon = L.geoJson(null, {
+        /* Style polygon */
+        style: function (feature) {
+          return {
+            color: "#3388ff",
+            fillColor: "#3388ff",
+            weight: 2,
+            opacity: 1,
+            fillOpacity: 0.2,
+          };
+        },
+        onEachFeature: function (feature, layer) {
+          var popupContent =
+            "Desa: " +
+            feature.properties.Desa +
+            "<br>" +
+            "Kecamatan: " +
+            feature.properties.Kecamatan +
+            "<br>" +
+            "Kota: " +
+            feature.properties.WADMKK;
+          layer.on({
+            click: function (e) {
+              polygon.bindPopup(popupContent);
+            },
+            mouseover: function (e) {
+              polygon.bindTooltip(feature.properties.Desa, {
+                sticky: true,
+              });
+            },
+          });
+        },
+      });
+      $.getJSON("data/admin_desa.geojson", function (data) {
+        polygon.addData(data);
+        map.addLayer(polygon);
+      });
+
+      var overlayMaps = {
+        "Titik SMA": point,
+        "Batas Administrasi Desa": polygon,
+      };
+
+      L.control
+        .layers(overlayMaps, {
+          collapsed: true,
+        })
+        .addTo(map);
     </script>
   </body>
 </html>
