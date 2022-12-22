@@ -44,15 +44,44 @@
         13
       );
 
-      /* Tile Basemap */
-      var basemap = L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      var basemap1 = L.tileLayer(
+        "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
         {
-          attribution:
-            '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://www.unsorry.net" target="_blank">unsorry@2022</a>',
+          attribution: "© OpenStreetMap",
         }
       );
-      basemap.addTo(map);
+
+      var basemap2 = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+        {
+          attribution: "Tiles&copy; Esri",
+        }
+      );
+
+      var basemap3 = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        {
+          attribution: "Tiles&copy; Esri",
+        }
+      );
+
+      var basemap4 = L.tileLayer(
+        "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png",
+        {
+          attribution:
+            'Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+        }
+      );
+
+      basemap1.addTo(map);
+
+      /* Control Layer */
+      var baseMaps = {
+        "Open Street Map": basemap1,
+        "Esri World Street": basemap2,
+        "Esri Imagery": basemap3,
+        "Open Topographic Map": basemap4,
+      };
 
       // Creates a marker with the coffee icon
       var redMarker = L.AwesomeMarkers.icon({
